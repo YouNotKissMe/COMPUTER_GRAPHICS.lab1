@@ -1,6 +1,5 @@
 from math import fabs
-from tabulate import tabulate as table
-import matplotlib.pyplot as plt
+from PIL import Image
 
 
 def length(array):
@@ -22,13 +21,13 @@ def sign(integer):
 
 def grafikprint(array):
     # Цифровой дифференциальный анализатор
-    graph = [['i', 'x', 'y']]
+    graph = []
     deltaX = (array[2] - array[0])/length(array)
     deltaY = (array[3] - array[1])/length(array)
     X = array[0] + 0.5 * sign(deltaX)
     Y = array[1] + 0.5 * sign(deltaY)
     for i  in range(int(length(array))):
-        graph.append([i,X,Y])
+        graph.append([int(X),int(Y)])
         X += deltaX
         Y += deltaY
     return graph
@@ -44,11 +43,10 @@ def brez(array):
     if dy > dx :
         dx, dy = dy, dx
         trade = 1
-    X, Y = [],[]
+    line = []
     e = 2*dy - dx
     for i in range(int(dx)):
-        X.append(x)
-        Y.append(y)
+        line.append([x,y])
         while e > 0:
             if trade == 1:
                 x += s1
@@ -60,20 +58,21 @@ def brez(array):
         else:
             x += s1
         e += 2 * dy
-    return X,Y
+    return line
+
+
+def paint(array):
+    # общая функция для алгоритмов + вывод рисунка
+    arratCDA, arrayBrez = grafikprint(array), brez(array)
+    img = Image.new('RGB', (max(array), max(array)),(0, 0, 0))
+    for i in range(len(arratCDA)):
+        img.putpixel((arratCDA[i]), (255, 255, 255))
+    for i in range(len(arrayBrez)):
+        img.putpixel((arrayBrez[i]), (255, 0, 0))
+    return img.show()
 
 
 if __name__ == '__main__':
-    # более красиво оформить
     array = input('Введите координаты точек: ').split()
     array = [int(i) for i in array]
-    print(table(grafikprint(array)))
-    a = grafikprint(array)[1:]
-    x,y = [],[]
-    for i in a:
-        x.append(i[1])
-        y.append(i[2])
-    X,Y = brez(array)
-    print(X,Y)
-    b = plt.plot(x, y, X, Y)
-    plt.show()
+    paint(array)
