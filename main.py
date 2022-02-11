@@ -72,14 +72,27 @@ def MAX(array):
     return int(max)
 
 
+def coordinate_axis(x, y, size):
+    # полностью переназначит закраску пикселей
+    if y > 0:
+        y = size - y
+    else:
+        y = size + fabs(y)
+    if x > 0:
+        x += size
+    else:
+        x = size - fabs(x)
+    return int(x), int(y)
+
+
 def paint(array):
     # общая функция для алгоритмов + вывод рисунка
     arratCDA, arrayBrez = DDA(array), brez(array)
-    img = Image.new('RGB', (MAX(array)+1, MAX(array)+1),(0, 0, 0))
+    img = Image.new('RGB', ((2*MAX(array))+1, (2*MAX(array))+1),(0, 0, 0))
     for i in range(len(arratCDA)):
-        img.putpixel((arratCDA[i]), (255, 255, 255))
+        img.putpixel((coordinate_axis(arratCDA[i][0],arratCDA[i][1],MAX(array))), (255, 255, 255))
     for i in range(len(arrayBrez)):
-        img.putpixel((arrayBrez[i]), (255, 0, 0))
+        img.putpixel((coordinate_axis(arrayBrez[i][0],arrayBrez[i][1],MAX(array))), (255, 0, 0))
     return img.show()
 
 
