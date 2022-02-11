@@ -19,7 +19,7 @@ def sign(integer):
         return -1
 
 
-def grafikprint(array):
+def DDA(array):
     # Цифровой дифференциальный анализатор
     graph = []
     deltaX = (array[2] - array[0])/length(array)
@@ -61,10 +61,21 @@ def brez(array):
     return line
 
 
+def MAX(array):
+    max = None
+    for i in array:
+        if not max:
+            max = fabs(i)
+        else:
+            if fabs(i) > max:
+                max = fabs(i)
+    return int(max)
+
+
 def paint(array):
     # общая функция для алгоритмов + вывод рисунка
-    arratCDA, arrayBrez = grafikprint(array), brez(array)
-    img = Image.new('RGB', (max(array), max(array)),(0, 0, 0))
+    arratCDA, arrayBrez = DDA(array), brez(array)
+    img = Image.new('RGB', (MAX(array)+1, MAX(array)+1),(0, 0, 0))
     for i in range(len(arratCDA)):
         img.putpixel((arratCDA[i]), (255, 255, 255))
     for i in range(len(arrayBrez)):
