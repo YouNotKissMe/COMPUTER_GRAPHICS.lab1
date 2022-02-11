@@ -1,5 +1,6 @@
 from math import fabs
 from PIL import Image
+import matplotlib.pyplot as plt
 
 
 def length(array):
@@ -84,6 +85,12 @@ def coordinate_axis(x, y, size):
         x = size - fabs(x)
     return int(x), int(y)
 
+def vector(algoritm):
+    x,y = [],[]
+    for i in algoritm:
+        x.append(i[0])
+        y.append(i[1])
+    return x,y
 
 def paint(array):
     # общая функция для алгоритмов + вывод рисунка
@@ -93,7 +100,9 @@ def paint(array):
         img.putpixel((coordinate_axis(arratCDA[i][0],arratCDA[i][1],MAX(array))), (255, 255, 255))
     for i in range(len(arrayBrez)):
         img.putpixel((coordinate_axis(arrayBrez[i][0],arrayBrez[i][1],MAX(array))), (255, 0, 0))
-    return img.show()
+    plt.plot(vector(arratCDA)[0],vector(arratCDA)[1],vector(arrayBrez)[0],vector(arrayBrez)[1])
+    plt.show()
+    return img.show(),
 
 
 if __name__ == '__main__':
